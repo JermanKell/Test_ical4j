@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -33,7 +34,12 @@ public class ADECalendar {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Calbuilder = new CalendarBuilder();
+		try {
+			Calbuilder = new CalendarBuilder();
+		}catch (Exception e) {
+			System.out.println("The build of the calendar failed");
+			
+		}
 	}
 	
 	
@@ -72,7 +78,22 @@ public class ADECalendar {
 		System.out.println("The loading of the calendar succeed\n");
 	}
 	
-	
-	
+	public void ReadCalEvents() {
+		/*for (Iterator i = ADEcal.getComponents().iterator(); i.hasNext();) {
+			Component compo = (Component)i.next();
+		}*/
+		
+		Iterator i = ADEcal.getComponents().iterator();
+		Component compo = (Component)i.next();
+		if (compo.getName().equalsIgnoreCase("VEVENT")) {
+			for (Iterator j = compo.getProperties().iterator(); j.hasNext();) {
+				Property prop = (Property)j.next();
+				System.out.println("Name of the event: " + prop.getName() + "\n");
+				System.out.println("Value of the event: " + prop.getValue() + "\n");
+			}
+			
+		}
+		
+	}
 	
 }
